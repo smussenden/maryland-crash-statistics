@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>
+    	Capital News Service Leaflet Graphic Template
+    </title>
+
+    <!-- Load leaflet.css -->
+    <link href="css/leaflet.css" rel="stylesheet">
+
+    <!-- Load leaflet.js -->
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet-src.js"></script>
+
+	<!-- Load our css -->
+	<link href="css/css.css" rel="stylesheet">
+
+	<!-- Load kml lib -->
+	<script src="js/kml.js"></script>
+
+  </head>
+
+  <body>
+   	<div id="mapid">
+   	</div>
+   	<script type="text/javascript">
+
+		var planes = [                                        
+			
+		var blackIcon = new L.Icon({
+		  iconUrl: 'css/images/marker-icon-black.png',
+		  iconSize: [18, 27],
+		  iconAnchor: [9, 27],
+		  popupAnchor: [0, -27]
+		});
+
+		var yellowIcon = new L.Icon({
+		  iconUrl: 'css/images/marker-icon-yellow.png',
+		  iconSize: [18, 27],
+		  iconAnchor: [9, 27],
+		  popupAnchor: [0, -27]
+		});
+
+		var yes = [];
+		var no = [];
+
+		for (var i = 0; i < planes.length; i++) {
+			if (planes[i][0] === "Yes"){
+				marker = new L.marker([planes[i][2],planes[i][3]],{icon: yellowIcon})
+				.bindPopup(planes[i][1]);
+				yes.push(marker);
+			}else {
+				marker = new L.marker([planes[i][2],planes[i][3]],{icon: blackIcon})
+				.bindPopup(planes[i][1]);
+				no.push(marker);
+			}
+		}
+
+		var yesSchools = L.layerGroup(yes);
+		var noSchools = L.layerGroup(no);
+
+		var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamFnbHVjayIsImEiOiJjamFqeHNrdnQyZjFrMzNsZDBrcHM2dzd3In0.84EdvBJ5XlBpintC80Jlow';
+
+		var streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+
+		var mymap = L.map('mapid', {
+			center: [39.50, -98.35],
+			zoom: 4,
+			layers: [streets, yesSchools, noSchools]
+		});
+
+		var baseMaps = {
+		};
+
+		var overlayMaps = {
+		    "Kept Name": yesSchools,
+		    "Changed Name": noSchools
+		};
+
+	    L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+
+	    var legend = L.control({position: 'bottomright'});
+
+		legend.onAdd = function (map) {
+
+			var div = L.DomUtil.create('div', 'info legend'),
+				labels = [];
+
+				labels.push(
+					'<i style="background:' + "#CCC62C" + '"></i>' + " Kept Name");
+				labels.push(
+					'<i style="background:' + "#000000" + '"></i>' + " Changed Name");
+
+			div.innerHTML = labels.join('<br>');
+			return div;
+		};
+
+		legend.addTo(mymap);
+
+		var track = new L.KML("KML_Samples.kml", {async: true});
+		track.on("loaded", function(e) {
+			map.fitBounds(e.target.getBounds());
+		});
+
+		mymap.addLayer(track);
+		mymap.addControl(new L.Control.Layers({}, {'Track':track}));
+
+ 	 </script>
+  </body>
+ 
+</html>
+
+
+
+

@@ -77,8 +77,10 @@ rm(person64p)
 
 
 #combine all quarters
-crash <- rbind(crash51,crash52,crash53,crash54,crash61,crash62,crash63,crash64,crash71,crash72)
+
 person <- rbind(person51,person52,person53,person54,person61,person62,person63,person64,person71,person72)
+
+crash <- rbind(crash51,crash52,crash53,crash54,crash61,crash62,crash63,crash64,crash71,crash72)
 
 # joins crash and person tables
 combine <- merge(crash, person, by="REPORT_NO")
@@ -93,16 +95,17 @@ us_and_stater = rbind(us_roads, state_roads)
 
 
 #extracts only fields we want
-pedestrian <- pedestrian_large[c(1,3,12,13,14,20,21,22,23,27,34,35,36,39,46,56,57)]
-us_and_stater = us_and_stater[c(1,3,12,13,14,20,21,22,23,27,34,35,36,39,46,56,57)]
+pedestrian <- pedestrian_large[c(1,3,12,13,14,20,21,22,23,27,34,35,36,39,44,46,56,57)]
+us_and_stater = us_and_stater[c(1,3,12,13,14,20,21,22,23,27,34,35,36,39,44,46,56,57)]
 #removes row names
 rownames(pedestrian) <- c()
 rownames(us_and_stater) <- c()
-#write data to csv file
+
+#write data to csv file, this is for the entire file
 #write.csv(pedestrian, file = "pedestrian.csv")
 
-#write data to csv file
-#write.csv(us_and_stater, file = "pedestrian_state_and_us.csv")
+#write data to csv file, this is for just US and MD roads
+write.csv(us_and_stater, file = "pedestrian_state_and_us.csv")
 
 
 
@@ -128,16 +131,15 @@ pre <- predict(ds,data2)
 # join the prediction to your base data-object
 exp <- data.frame(data,pre)
 
-exp2 <- subset(exp, pre>83)
-exp2 <- subset(exp2, pre<87)
-exp3 <- subset(exp, pre<23)
-exp3 <- subset(exp3, pre>21)
-exp4 = rbind(exp2, exp3)
+#pull out individual ler
+exp <- subset(exp, pre>87)
+exp <- subset(exp, pre<89)
 
-cluster = merge(us_and_stater, exp4, by= c("LATITUDE", "LONGITUDE"))
+#add information back to cluster
+cluster = merge(us_and_stater, exp, by= c("LATITUDE", "LONGITUDE"))
 #remove duplicate rows
 cluster = unique(cluster)
-# export
-write.table(cluster, "oc.csv", sep=",", row.names = F)
+# write to csv, this is one individual cluster
+write.table(cluster, "branchfull.csv", sep=",", row.names = F)
 
 
