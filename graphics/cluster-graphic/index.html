@@ -1,120 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+  <meta charset="UTF-8" />
+  <title>MLB International Signings 2017</title>
 
-    <title>
-    	Capital News Service Leaflet Graphic Template
-    </title>
+   <!-- d3 import -->
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
-    <!-- Load leaflet.css -->
-    <link href="css/leaflet.css" rel="stylesheet">
+  <!-- Load leaflet.css -->
+  <link href="css/leaflet.css" rel="stylesheet">
 
-    <!-- Load leaflet.js -->
-    <script src="js/leaflet.js"></script>
-    <script src="js/leaflet-src.js"></script>
+  <!-- Load leaflet.js -->
+  <script src="js/leaflet.js"></script>
+  <script src="js/leaflet-src.js"></script>
 
-	<!-- Load our css -->
-	<link href="css/css.css" rel="stylesheet">
+  <!-- Load our css -->
+  <link href="css/css.css" rel="stylesheet">
 
-	<!-- Load kml lib -->
-	<script src="js/kml.js"></script>
+  <!-- Load kml lib -->
+  <script src="js/kml.js"></script>
 
-  </head>
+  <!-- font -->
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700,700i|Poppins:300,400,500,600,700&amp;subset=latin-ext" rel="stylesheet">
 
-  <body>
-   	<div id="mapid">
-   	</div>
-   	<script type="text/javascript">
+  <!-- for style other than leaflet -->
+  <style type="text/css">
+    svg {
+      font-family:'Poppins', sans-serif;
+      font-size:9pt;
+      shape-rendering: crispEdges;
+    }
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+    }
+    path.domain {
+      stroke: none;
+    }
+    .y .tick line {
+      stroke: #ddd;
+    }
+    .my_polyline1 {
+      stroke: #FF7C00;
+      fill: none;
+      /*stroke-dasharray: 10,10; */
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    .my_polyline2 {
+      stroke: #C70101;
+      fill: none;
+      /*stroke-dasharray: 10,10; */
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    .my_polyline3 {
+      stroke: #FF7C00;
+      fill: none;
+      /*stroke-dasharray: 10,10; */
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    /*fence*/
+    .my_polyline4 {
+      stroke: black;
+      fill: none;
+      stroke-dasharray: 10,10;
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    .my_polyline5 {
+      stroke: #FFE804;
+      fill: none;
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    .tooltip_stats {
+        padding: 6px 8px;
+        font-size:9pt;
+        font-family:'Poppins', sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.9);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
+    .leaflet-tooltip-left.tooltip_stats::before {
+      border-left-color: black;
+    }
+    .leaflet-tooltip-right.tooltip_stats::before {
+      border-right-color: black;
+    }
+    h1 {
+      font-family: 'Droid Serif', serif;
+      font-weight:600;
+      font-size:24pt;
+      fill:#2c2c2c;
+      color:black;
+      margin-bottom:5px;
+      margin-top:10px;
+    }
+    h2 {
+      font-family: 'Droid Serif', serif;
+      font-weight:600;
+      font-size:16pt;
+      fill:#2c2c2c;
+      color:black;
+      margin-bottom:5px;
+      margin-top:10px;
+    }
+    h3 {
+      font-family:'Poppins', sans-serif;
+      font-weight:300;
+      font-size:8pt;
+    }
+    h4 {
+      font-family:'Droid Serif', serif;
+      font-weight:400;
+      font-size:9pt;
+      color:#2c2c2c;
+      text-align:right;
+    }
+    h5 {
+      font-family:'Droid Serif', serif;
+      font-weight:400;
+      font-size:10pt;
+      color:#2c2c2c;
+      text-align:left;
+    }
+    .legend {
+    line-height: 18px;
+    color: #555;
+    }
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+    .info {
+        padding: 6px 8px;
+        font-size:9pt;
+        font-family:'Poppins', sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+    /*Styles the div that holds the highchart */
+    #container {
+      margin: 0 auto;
+      padding-left:20px;
+      padding-top:20px;
+      padding-right:30px;
+      padding-bottom:10px;
+      border-left:1px solid black;
+      border-bottom:14pt solid black;
+      border-top:1px solid black;
+      border-right:1px solid black;
+      box-shadow:5px 5px 10px gainsboro;
+      min-width: 310px;
+      max-width: 600px;
+      position:relative;
+    }
+    #credits{
+      font-family: 'Droid Serif', serif;
+      font-weight:300;
+      font-size:8pt;
+      position:absolute;
+      bottom:0;
+      right:0;
+      padding: 8px;
+    }
+  </style>
+</head>
 
-		var planes = [                                        
-			
-		var blackIcon = new L.Icon({
-		  iconUrl: 'css/images/marker-icon-black.png',
-		  iconSize: [18, 27],
-		  iconAnchor: [9, 27],
-		  popupAnchor: [0, -27]
-		});
+<body>
+<div id="container" style="min-width: 300px; max-width: 700px; height: 750px; margin: 0 auto">
+  <h1>Locations Of Schools With US Native American Reservations</h1>
+  <span style="height:8px; font-size:8pt; background-color:#fbd603; color:#fbd603;">____________________________________________________________</span><h3>BY JAKE GLUCK<a href="http://cnsmaryland.org" target="_blank" style="text-decoration:none;"> | CAPITAL NEWS SERVICE</a></h3>
+  <h5>
+    Only a handfull of schools are located near reservations. Many schools are concintrated in the midwest. Schools located along the coast are more likely to have changed their name.
+  </h5>
 
-		var yellowIcon = new L.Icon({
-		  iconUrl: 'css/images/marker-icon-yellow.png',
-		  iconSize: [18, 27],
-		  iconAnchor: [9, 27],
-		  popupAnchor: [0, -27]
-		});
 
-		var yes = [];
-		var no = [];
+    <div id="mapid">
+    </div>
+    <script type="text/javascript">
+    //var planes = [];
+   
+    // d3.csv("css/images/pedestrian_state_and_us.csv", function(data) {
+    //   for (i = 0; i < 3104;i++){
+    //       planes.push([data[i].LATITUDE,data[i].LONGITUDE]);
+          
+    //   }
+    //   var yes = [];
 
-		for (var i = 0; i < planes.length; i++) {
-			if (planes[i][0] === "Yes"){
-				marker = new L.marker([planes[i][2],planes[i][3]],{icon: yellowIcon})
-				.bindPopup(planes[i][1]);
-				yes.push(marker);
-			}else {
-				marker = new L.marker([planes[i][2],planes[i][3]],{icon: blackIcon})
-				.bindPopup(planes[i][1]);
-				no.push(marker);
-			}
-		}
+    //   for (var i = 0; i < 3104; i++) {
+    //     marker = new L.marker([planes[i][0],planes[i][1]],{icon: yellowIcon});
+    //     yes.push(marker);
+    //   }
 
-		var yesSchools = L.layerGroup(yes);
-		var noSchools = L.layerGroup(no);
+    //   var yesPoints = L.layerGroup(yes);
 
-		var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamFnbHVjayIsImEiOiJjamFqeHNrdnQyZjFrMzNsZDBrcHM2dzd3In0.84EdvBJ5XlBpintC80Jlow';
+      // var mymap = L.map('mapid', {
+      // center: [39.27, -77.22],
+      // zoom: 9,
+      // layers: [streets, yesPoints]
+    // });
+    // });
+                                     
+      
+    // var blackIcon = new L.Icon({
+    //   iconUrl: 'css/images/marker-icon-black.png',
+    //   iconSize: [18, 27],
+    //   iconAnchor: [9, 27],
+    //   popupAnchor: [0, -27]
+    // });
 
-		var streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+    // var yellowIcon = new L.Icon({
+    //   iconUrl: 'css/images/marker-icon-yellow.png',
+    //   iconSize: [18, 27],
+    //   iconAnchor: [9, 27],
+    //   popupAnchor: [0, -27]
+    // });
 
-		var mymap = L.map('mapid', {
-			center: [39.50, -98.35],
-			zoom: 4,
-			layers: [streets, yesSchools, noSchools]
-		});
+    var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+      '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamFnbHVjayIsImEiOiJjamFqeHNrdnQyZjFrMzNsZDBrcHM2dzd3In0.84EdvBJ5XlBpintC80Jlow';
 
-		var baseMaps = {
-		};
+    var streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
 
-		var overlayMaps = {
-		    "Kept Name": yesSchools,
-		    "Changed Name": noSchools
-		};
+    var mymap = L.map('mapid', {
+      center: [39.27, -77.22],
+      zoom: 8,
+      layers: [streets]
+    });
 
-	    L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+    var track = new L.KML("dbscan_005_min_5.kml", {async: true});
 
-	    var legend = L.control({position: 'bottomright'});
+    mymap.addLayer(track);
 
-		legend.onAdd = function (map) {
+    var legend = L.control({position: 'topright'});
 
-			var div = L.DomUtil.create('div', 'info legend'),
-				labels = [];
+    function gotoWheaton(){
+      mymap.setView(L.latLng(39.048, -77.05),14);
+    }
 
-				labels.push(
-					'<i style="background:' + "#CCC62C" + '"></i>' + " Kept Name");
-				labels.push(
-					'<i style="background:' + "#000000" + '"></i>' + " Changed Name");
+    function gotoLangely(){
+      mymap.setView(L.latLng(38.99, -76.99),14);
+    }
 
-			div.innerHTML = labels.join('<br>');
-			return div;
-		};
+    function gotoBranch(){
+      mymap.setView(L.latLng(38.84, -76.95),14);
+    }
 
-		legend.addTo(mymap);
+    function gotoOC(){
+      mymap.setView(L.latLng(38.385, -75.08),12);
+    }
 
-		var track = new L.KML("KML_Samples.kml", {async: true});
-		track.on("loaded", function(e) {
-			map.fitBounds(e.target.getBounds());
-		});
+    legend.onAdd = function (mymap) {
 
-		mymap.addLayer(track);
-		mymap.addControl(new L.Control.Layers({}, {'Track':track}));
+      var div = L.DomUtil.create('div', 'info legend'),
+        labels = [];
 
- 	 </script>
-  </body>
- 
+        labels.push(
+          '<span onclick="gotoWheaton()">Wheaton</span>');
+        labels.push(
+          '<span onclick="gotoBranch()">Branch Avenue</span>');
+        labels.push(
+                '<span onclick="gotoOC()">Ocean City</span>');
+         labels.push(
+                '<span onclick="gotoLangely()">Langely Park</span>');
+
+
+      div.innerHTML = labels.join('<br>');
+      return div;
+    };
+
+    legend.addTo(mymap);
+
+   </script>
+
+  <div id="credits"> <p> Source: <a href="http://cnsmaryland.org/home"> Capital News Service </a></p>  </div>
+
+</div>
+
+</body>
 </html>
-
-
-
-
