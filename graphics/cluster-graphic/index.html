@@ -182,53 +182,44 @@
 
 <body>
 <div id="container" style="min-width: 300px; max-width: 700px; height: 750px; margin: 0 auto">
-  <h1>Locations Of Schools With US Native American Reservations</h1>
+  <h1>Locations Of Pedestrian Accident Hotspots on US and MD State Roads</h1>
   <span style="height:8px; font-size:8pt; background-color:#fbd603; color:#fbd603;">____________________________________________________________</span><h3>BY JAKE GLUCK<a href="http://cnsmaryland.org" target="_blank" style="text-decoration:none;"> | CAPITAL NEWS SERVICE</a></h3>
   <h5>
-    Only a handfull of schools are located near reservations. Many schools are concintrated in the midwest. Schools located along the coast are more likely to have changed their name.
+      These hotspot were located using a clustering algorithim on pedestrian accidents on US and MD state roads in the last three years. Click on the locations to view the hotspots highlighted in our story. View the code on the CNS Github
   </h5>
 
 
     <div id="mapid">
     </div>
     <script type="text/javascript">
-    //var planes = [];
+
+    d3.csv("_005_min_5_Points.csv", function(data) {
+
+    var planes = [];
+
+    var yellowIcon = new L.Icon({
+      iconUrl: 'css/images/marker-icon-yellow.png',
+      iconSize: [18, 27],
+      iconAnchor: [9, 27],
+      popupAnchor: [0, -27]
+    });
+
    
-    // d3.csv("css/images/pedestrian_state_and_us.csv", function(data) {
-    //   for (i = 0; i < 3104;i++){
-    //       planes.push([data[i].LATITUDE,data[i].LONGITUDE]);
+   arrsize = data.length;
+      for (i = 0; i < arrsize;i++){
+          planes.push([data[i].LATITUDE,data[i].LONGITUDE]);
           
-    //   }
-    //   var yes = [];
+      }
+      var yes = [];
 
-    //   for (var i = 0; i < 3104; i++) {
-    //     marker = new L.marker([planes[i][0],planes[i][1]],{icon: yellowIcon});
-    //     yes.push(marker);
-    //   }
+      for (var i = 0; i < arrsize; i++) {
+        marker = new L.marker([planes[i][0],planes[i][1]],{icon: yellowIcon});
+        yes.push(marker);
+      }
 
-    //   var yesPoints = L.layerGroup(yes);
-
-      // var mymap = L.map('mapid', {
-      // center: [39.27, -77.22],
-      // zoom: 9,
-      // layers: [streets, yesPoints]
-    // });
-    // });
+      var yesPoints = L.layerGroup(yes);
                                      
-      
-    // var blackIcon = new L.Icon({
-    //   iconUrl: 'css/images/marker-icon-black.png',
-    //   iconSize: [18, 27],
-    //   iconAnchor: [9, 27],
-    //   popupAnchor: [0, -27]
-    // });
 
-    // var yellowIcon = new L.Icon({
-    //   iconUrl: 'css/images/marker-icon-yellow.png',
-    //   iconSize: [18, 27],
-    //   iconAnchor: [9, 27],
-    //   popupAnchor: [0, -27]
-    // });
 
     var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
       '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -240,7 +231,7 @@
     var mymap = L.map('mapid', {
       center: [39.27, -77.22],
       zoom: 8,
-      layers: [streets]
+      layers: [streets, yesPoints]
     });
 
     var track = new L.KML("dbscan_005_min_5.kml", {async: true});
@@ -285,6 +276,8 @@
     };
 
     legend.addTo(mymap);
+
+  });
 
    </script>
 
