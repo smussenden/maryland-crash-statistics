@@ -24,3 +24,9 @@
     margin-right: 8px;
     opacity: 0.7;
 }
+
+div#source {
+    font-family:'Droid Serif';
+    text-align: right;
+    padding-top: 10px;
+}
