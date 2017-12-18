@@ -439,6 +439,14 @@
 	</SchemaData></ExtendedData>
       <LineString><coordinates>-76.88654065,38.82108639 -76.88661575,38.82116998</coordinates></LineString>
   </Placemark>
+  <!-- <Placemark>
+	<ExtendedData><SchemaData schemaUrl="#dbscan_005_min_5">
+		<SimpleData name="cartodb_id">49</SimpleData>
+		<SimpleData name="category">123</SimpleData>
+		<SimpleData name="count_vals">7</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>-76.78876,38.46991004</coordinates></Point>
+  </Placemark> -->
   <Placemark>
 	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#dbscan_005_min_5">
@@ -520,7 +528,7 @@
 	</SchemaData></ExtendedData>
       <Polygon><outerBoundaryIs><LinearRing><coordinates>-76.6957511,39.3313888 -76.70275033,39.33359622 -76.70078225,39.33299665 -76.69585705,39.33147594 -76.6957511,39.3313888</coordinates></LinearRing></outerBoundaryIs></Polygon>
   </Placemark>
-  <Placemark>
+  <!-- <Placemark>
 	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#dbscan_005_min_5">
 		<SimpleData name="cartodb_id">59</SimpleData>
@@ -528,7 +536,7 @@
 		<SimpleData name="count_vals">4</SimpleData>
 	</SchemaData></ExtendedData>
       <Polygon><outerBoundaryIs><LinearRing><coordinates>-76.50327042,39.27008761 -76.50348902,39.27013018 -76.50323957,39.27407747 -76.50234506,39.2720208 -76.50327042,39.27008761</coordinates></LinearRing></outerBoundaryIs></Polygon>
-  </Placemark>
+  </Placemark> -->
   <Placemark>
 	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
 	<ExtendedData><SchemaData schemaUrl="#dbscan_005_min_5">

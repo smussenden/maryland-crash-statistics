@@ -168,14 +168,13 @@
       max-width: 600px;
       position:relative;
     }
-    #credits{
+    #source{
       font-family: 'Droid Serif', serif;
       font-weight:300;
-      font-size:8pt;
-      bottom:0;
-      right:0;
-      padding: 8px;
-      margin-top:20px;
+      font-size:9pt;
+      display: flex;
+      float:right;
+      margin-top:10px;
     }
   </style>
 </head>
@@ -183,7 +182,7 @@
 <body>
 <div id="container" style="min-width: 300px; max-width: 700px; display: flex;flex-direction: column; margin: 0 auto">
   <h1>Locations Of Pedestrian Accident Hotspots on US and MD State Roads</h1>
-  <span style="height:8px; font-size:8pt; background-color:#fbd603; color:#fbd603;">____________________________________________________________</span><h3>BY JAKE GLUCK<a href="http://cnsmaryland.org" target="_blank" style="text-decoration:none;"> | CAPITAL NEWS SERVICE</a></h3>
+  <span style="height:8px; font-size:8pt; background-color:#fbd603; color:#fbd603;"></span><h3>BY JAKE GLUCK<a href="http://cnsmaryland.org" target="_blank" style="text-decoration:none;"> | CAPITAL NEWS SERVICE</a></h3>
   <h5>
       These hotspot were located using a clustering algorithim on pedestrian accidents on US and MD state roads in the last three years. Click on the locations to view the hotspots highlighted in our story. View the code on the CNS Github
   </h5>
@@ -254,6 +253,10 @@
         mymap.setView(L.latLng(38.385, -75.08),12);
       }
 
+      function gotoOut(){
+        mymap.setView(L.latLng(39.1, -76.725), 10);
+      }
+
        var legend = L.control({position: 'bottomright'});
 
       var track = new L.KML("dbscan_005_min_5.kml", {async: true});
@@ -267,15 +270,17 @@
         var div = L.DomUtil.create('div', 'info legend'),
           labels = [];
           labels.push(
-            '<span style=\"text-align:center\"">Click to view clusters</span>');
+            '<span style=\"text-align:center\""> Click to view clusters </span><br>');
           labels.push(
-            '<span style=\"cursor: pointer\" onclick="gotoWheaton()">Wheaton</span>');
+            '<span class = "jumpTo" onclick="gotoOut()">  &nbsp Zoom Out  &nbsp </span><br>');
           labels.push(
-            '<span style=\"cursor: pointer\" onclick="gotoBranch()">Branch Avenue</span>');
+            '<span class = "jumpTo" onclick="gotoWheaton()"> &nbsp Wheaton &nbsp </span><br>');
           labels.push(
-                  '<span style=\"cursor: pointer\" onclick="gotoOC()">Ocean City</span>');
+            '<span class = "jumpTo" onclick="gotoBranch()"> &nbsp Branch Avenue &nbsp </span><br>');
+          labels.push(
+                  '<span class = "jumpTo" onclick="gotoOC()"> &nbsp Ocean City &nbsp </span><br>');
            labels.push(
-                  '<span style=\"cursor: pointer\" onclick="gotoLangely()">Langely Park</span>');
+                  '<span class = "jumpTo" onclick="gotoLangely()"> &nbsp Langely Park &nbsp </span><br><br>');
 
 
         div.innerHTML = labels.join('<br>');
