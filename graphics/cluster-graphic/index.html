@@ -205,7 +205,7 @@
         layers: [streets]
       });
 
-    d3.csv("_005_min_5_Points.csv", function(data) {
+    d3.csv("clusters.csv", function(data) {
 
       var planes = [];
 
@@ -220,7 +220,7 @@
         var yes = [];
 
         for (var i = 1; i < arrsize; i++) {
-          marker = new L.marker([data[i].latitude,data[i].longitude],{icon: yellowIcon});
+          marker = new L.marker([data[i].LATITUDE,data[i].LONGITUDE],{icon: yellowIcon});
           yes.push(marker);
         }
 
@@ -259,7 +259,7 @@
 
        var legend = L.control({position: 'bottomright'});
 
-      var track = new L.KML("dbscan_005_min_5.kml", {async: true});
+      var track = new L.KML("clusters.kml", {async: true});
 
       mymap.addLayer(track);
 
