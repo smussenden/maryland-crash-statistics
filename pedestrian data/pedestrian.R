@@ -113,25 +113,45 @@ rm(person62)
 rm(person63)
 rm(person64)
 
-select <-person %>%
+# Now we need to pull only people involved in accidents with a driver, there are a few cases where pedestrians are logged but there was no driver, such as two bikes hitting each other
+
+# create a new object to protect person
+newperson <- person 
+  
+
+#melt data to create one new column for each person type, if there is any value 1 or greater that indicates a person of that type is present in that record, which are populated by the injury severity code because it is always grater than one, if they are not that person type that column recieves value 0
+newperson <- spread(person, PERSON_TYPE, INJ_SEVER_CODE, fill = 0)
+
+#change all injury severity codes greater than 1 to 1. Now the colums are binarys indicating if they were that person type
+newperson$D[newperson$D > 1] <- 1
+newperson$O[newperson$O > 1] <- 1
+newperson$P[newperson$P > 1] <- 1
+
+#Group the data by report number and sum the person type column values, now each column has the total number of how many of each person type was involved in every accident
+#At this point there are 275662
+newsperson_new <- newperson %>%
   group_by(REPORT_NO) %>%
-  filter(PERSON_TYPE != "D")
+  summarise(drv=sum(D),
+            occ=sum(O),
+            ped=sum(P)
+            ) 
 
-select = sqldf("SELECT * from person
-      GROUP BY PERSON.REPORT_NO
-      HAVING (PERSON.PERSON_TYPE != 'D')")
+#Now there are 274771 - remove 891 cases with no driver 
+newsperson_new <- subset(newsperson_new, drv>0)
 
-# Check the range of values in PERSON_TYPE - total of 11982 P
-person_type_count <- select %>%
-  group_by(PERSON_TYPE) %>%
-  summarise(count=n()) 
-View(person_type_count)
+#get only pedestrian cases there are 10692
+newsperson_new <- subset(newsperson_new, ped>0)
 
-#Filter out only pedestrians from our person table
-person <- subset(person, PERSON_TYPE=="P")
 
-# joins crash and person tables into one table
-combine <- merge(crash, person, by="REPORT_NO")
+#merge back with data set there are 24835 people
+new_person <- merge(newsperson_new, person, by="REPORT_NO")
+
+
+#Filter out only pedestrians from our person table, now there is 11325
+new_person <- subset(new_person, PERSON_TYPE=="P")
+
+# joins crash and person tables into one table, this is now a table of one record per pedestrian involved in a crash with a motor vehicle
+combine <- merge(crash, new_person, by="REPORT_NO")
 
 # The one flaw we've identified after merging this is a record MCP21950009 that appears twice in the data, once as a 2015 crash, once as a 2017 crash.  The person number was also repeated twice, resulting in four extra record after the combine.  This code here is what we used to identify the problematic record.   
 
@@ -139,14 +159,14 @@ person_count <- combine %>%
   group_by(REPORT_NO, PERSON_ID) %>%
   summarise(count=n()) 
 
-# Remove three copies of this problematic record. This results in us having, in the combined file, 11981 records.
+# Remove three copies of this problematic record. This results in us having, in the combined file, 11327 records.
 
 combine <- combine %>%
-  filter(row_number() != 9575) %>%
-  filter(row_number() != 9576) %>%
-  filter(row_number() != 9577) 
+  filter(row_number() != 9023) %>%
+  filter(row_number() != 9022) %>%
+  filter(row_number() != 9021) 
 
-# Before filtering for SHA-only roads, look at range of ROUTE_TYPE_CODES.  Note that Of the 11,981 pedestrian crashes, 3835 have no route type given.  An analysis of these null value records found that, though there was some geographic information, there was simply not enough information provided in the data set to say with any certainty that the crashes occured on state, county, US or other roads, or private parking lots. Some of them appeared to have been located on or near US or state roads.  Note that this means that the true number of pedestrian crashes on US and Maryland roads is likely to be higher, but that we can't say that with certainty.  Our analysis must be couched as "at least" and acknowledge these flaws.    
+# Before filtering for SHA-only roads, look at range of ROUTE_TYPE_CODES.  Note that Of the 11,324 pedestrian hit in crashes, 3576 have no route type given.  An analysis of these null value records found that, though there was some geographic information, there was simply not enough information provided in the data set to say with any certainty that the crashes occured on state, county, US or other roads, or private parking lots. Some of them appeared to have been located on or near US or state roads.  Note that this means that the true number of pedestrian crashes on US and Maryland roads is likely to be higher, but that we can't say that with certainty.  Our analysis must be couched as "at least" and acknowledge these flaws.    
 
 road_type_count <- combine %>%
   group_by(ROUTE_TYPE_CODE) %>%
@@ -160,17 +180,17 @@ no_route_code_mainroad <- no_route_code %>%
   subset(MAINROAD_NAME != "")
 
 
-# Create subset for state and us highways.  Note that there were 103 records for IS (Insterstate Route), but a decision was made to leave those out becuase of questions about SHA vs other agency control of different parts of those roads.  
-us_roads <- subset(combine, ROUTE_TYPE_CODE=="US") # 2495 people in crashes
-state_roads <- subset(combine, ROUTE_TYPE_CODE=="MD") # 609 people in crashes
+# Create subset for state and us highways.  Note that there were 102 records for IS (Insterstate Route), but a decision was made to leave those out becuase of questions about SHA vs other agency control of different parts of those roads.  
+us_roads <- subset(combine, ROUTE_TYPE_CODE=="US") # 2397 people in crashes
+state_roads <- subset(combine, ROUTE_TYPE_CODE=="MD") # 581 people in crashes
 
 #combine US and state roads into one table
 us_and_stater = rbind(us_roads, state_roads)
 
 
 #extracts only fields we want
-pedestrian <- combine[c(1,3,12,13,14,20,21,22,23,27,34,35,36,39,44,46,56,57)]
-us_and_stater <- us_and_stater[c(1,3,12,13,14,20,21,22,23,27,34,35,36,39,44,46,56,57)]
+pedestrian <- combine
+us_and_stater <- us_and_stater
 
 #removes row names
 rownames(pedestrian) <- c()
@@ -180,7 +200,7 @@ rownames(us_and_stater) <- c()
 us_and_state_nobmore <- subset(us_and_stater, COUNTY_NO!=24)
 
 #write data to csv file, this is for the us and state no baltimore
-write.csv(pedestrian, file = "us_and_state_nobmore.csv")
+write.csv(us_and_state_nobmore, file = "us_and_state_nobmore.csv")
 
 #write data to csv file, this is for the entire file
 write.csv(pedestrian, file = "pedestrian.csv")
@@ -189,13 +209,48 @@ write.csv(pedestrian, file = "pedestrian.csv")
 #write.csv(us_and_stater, file = "pedestrian_state_and_us.csv")
 
 
+###### Analysis #######
+
+#total number of crashes on state and us roads between 2015 and the first half of 2017, there are 2281
+total_crashes <- us_and_state_nobmore %>%
+  group_by(REPORT_NO) %>%
+  summarise(count=n())
+
+nrow(total_crashes)
+
+#number of pedestrians hit by vehicles on state and us roads between 2015 and the first half of 2017, there are 2402
+nrow(us_and_state_nobmore)
+
+#number of pedestrians killed by vehicles on state and us roads between 2015 and the first half of 2017, there are 147
+killed <- us_and_state_nobmore %>%
+  filter(INJ_SEVER_CODE == 5)
+
+write.table(killed, "killed.csv", sep=",", row.names = F)
+
+#number of pedestrians seriously injured by vehicles on state and us roads between 2015 and the first half of 2017, there are 1366
+injured <- us_and_state_nobmore %>%
+  filter(INJ_SEVER_CODE == 4 | INJ_SEVER_CODE == 3)
+
+#number of bicyclists killed by vehicles on state and us roads between 2015 and the first half of 2017, there are 14
+
+bicyclists <- us_and_state_nobmore %>%
+  filter(PED_TYPE_CODE == 2)
+
+bike_killed <- bicyclists %>%
+  filter(INJ_SEVER_CODE == 5)
+
+#number of bicyclists seriously injured by vehicles on state and us roads between 2015 and the first half of 2017, there are 14
+
+bike_injured<- bicyclists %>%
+  filter(INJ_SEVER_CODE == 4 | INJ_SEVER_CODE == 3)
+
 ###Clustering###
 
 # set plots bg-color
 par(bg="grey80")
 
 # import your point data
-data <-us_and_state_nobmore[c(12,13)]
+data <-us_and_state_nobmore[c(35,36)]
 
 # create a working object
 data2=data
@@ -217,10 +272,42 @@ exp <- data.frame(data,pre)
 #exp <- subset(exp, pre<89)
 
 
-#remove noise points that are not located in any cluster. That gives us 1157 persons in clusters
+#remove noise points that are not located in any cluster. That gives us 1113 persons in clusters
 exp <- subset(exp, pre!=0)
+
+#count the number in each cluster to make sure there is at least 5
+exp_count <- exp %>%
+  group_by(pre) %>%
+  summarise(count=n())
+
+#remove cluster 54, it only has 4 points
+exp <- subset(exp, pre!=54)
 
 # write to csv
 write.table(exp, "clusters.csv", sep=",", row.names = F)
+
+
+### CLUSTER ANALYSIS ##########
+
+
+#here we gathered information about one small cluster around georgia and august drive. This approach may not work on a larger dataset, because if two accidents occured at the exact sam coordinates it would creat a duplicate row. However, this cluster only had 7 pedestrians so we could see it was not the case.
+
+#Small cluster
+small_cluster <- exp %>%
+  filter(pre ==94)
+
+small_cluster <- inner_join(small_cluster, us_and_state_nobmore, by=c('LONGITUDE', 'LATITUDE'))
+rownames(small_cluster) <- c()
+small_cluster <- distinct(small_cluster)
+
+#Small cluster
+oc_cluster <- exp %>%
+  filter(pre ==61 | pre == 62 | pre == 63 | pre == 13) 
+
+
+oc_cluster <- inner_join(oc_cluster, us_and_state_nobmore, by=c('LONGITUDE', 'LATITUDE'))
+rownames(oc_cluster) <- c()
+oc_cluster <- distinct(oc_cluster)
+
 
 
