@@ -223,6 +223,20 @@ nrow(total_crashes)
 #number of pedestrians hit by vehicles on state and us roads (no Baltimore city, no interstate) between 2015 and the first half of 2017: 2402
 nrow(us_and_state_no_bmore)
 
+#number of pedestrians in each injury severity category state and us roads (no Baltimore city, no interstate) between 2015 and the first half of 2017
+total_injury_group <- us_and_state_no_bmore %>%
+  group_by(INJ_SEVER_CODE) %>%
+  summarise(count=n())
+#1=291
+#2=598
+#1+2=889
+#3=991
+#4=375
+#3+4=1366
+#5=147
+
+
+
 #number of pedestrians killed by vehicles on state and us roads  (no Baltimore city, no interstate) between 2015 and the first half of 2017: 147
 killed <- us_and_state_no_bmore %>%
   filter(INJ_SEVER_CODE == 5)
