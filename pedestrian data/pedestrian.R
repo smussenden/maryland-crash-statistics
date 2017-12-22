@@ -19,53 +19,53 @@ library(sqldf)
 # Import Maryland State Police vehicle crash data.  Raw data is here: https://github.com/Capital-News-Service/maryland-crash-statistics, with data dictionary. These were originally stored as Excel files with multipel sheets.  We've stripped out those sheets into separate CSVs and then read in.  We're just reading in crash tables and person tables for each quarter.  Note that we're removing certain fields on read in to ensure that 2016 and 2017 fields match 2015 fields. 
 #get data from each quarter and resize 2016 and 2017 tables to match 2015
 
-crash71p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2017.Q1.CRASH.csv", header = TRUE)
+crash71p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2017.Q1.CRASH.csv", header = TRUE)
 crash71 <- crash71p[c(1:11,13:37)]
 
-person71p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2017.Q1.PERSON.csv", header = TRUE)
+person71p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2017.Q1.PERSON.csv", header = TRUE)
 person71 <- person71p[c(1:20,22:28)]
 
-crash72p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2017.Q2.CRASH.csv", header = TRUE)
+crash72p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2017.Q2.CRASH.csv", header = TRUE)
 crash72 <- crash72p[c(1:11,13:37)]
 
-person72p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2017.Q2.PERSON.csv", header = TRUE)
+person72p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2017.Q2.PERSON.csv", header = TRUE)
 person72 <- person72p[c(1:20,22:28)]
 
-crash61p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2016.Q1.CRASH.csv", header = TRUE)
+crash61p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2016.Q1.CRASH.csv", header = TRUE)
 crash61 <- crash61p[c(1:11,13:37)]
 
-person61p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2016.Q1.PERSON.csv", header = TRUE)
+person61p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2016.Q1.PERSON.csv", header = TRUE)
 person61 <- person61p[c(1:20,22:28)]
 
-crash62p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2016.Q2.CRASH.csv", header = TRUE)
+crash62p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2016.Q2.CRASH.csv", header = TRUE)
 crash62 <- crash62p[c(1:11,13:37)]
 
-person62p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2016.Q2.PERSON.csv", header = TRUE)
+person62p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2016.Q2.PERSON.csv", header = TRUE)
 person62 <- person62p[c(1:20,22:28)]
 
-crash63p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2016.Q3.CRASH.csv", header = TRUE)
+crash63p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2016.Q3.CRASH.csv", header = TRUE)
 crash63 <- crash63p[c(1:11,13:37)]
 
-person63p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2016.Q3.PERSON.csv", header = TRUE)
+person63p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2016.Q3.PERSON.csv", header = TRUE)
 person63 <- person63p[c(1:20,22:28)]
 
-crash64p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2016.Q4.CRASH.csv", header = TRUE)
+crash64p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2016.Q4.CRASH.csv", header = TRUE)
 crash64 <- crash64p[c(1:11,13:37)]
 
-person64p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2016.Q4.PERSON.csv", header = TRUE)
+person64p <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2016.Q4.PERSON.csv", header = TRUE)
 person64 <- person64p[c(1:20,22:28)]
 
-crash51 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2015.Q1.CRASH.csv", header = TRUE)
-person51 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2015.Q1.PERSON.csv", header = TRUE)
+crash51 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2015.Q1.CRASH.csv", header = TRUE)
+person51 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2015.Q1.PERSON.csv", header = TRUE)
 
-crash52 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2015.Q2.CRASH.csv", header = TRUE)
-person52 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2015.Q2.PERSON.csv", header = TRUE)
+crash52 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2015.Q2.CRASH.csv", header = TRUE)
+person52 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2015.Q2.PERSON.csv", header = TRUE)
 
-crash53 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2015.Q3.CRASH.csv", header = TRUE)
-person53 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2015.Q3.PERSON.csv", header = TRUE)
+crash53 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2015.Q3.CRASH.csv", header = TRUE)
+person53 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2015.Q3.PERSON.csv", header = TRUE)
 
-crash54 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2015.Q4.CRASH.csv", header = TRUE)
-person54 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Pedestrian\\2015.Q4.PERSON.csv", header = TRUE)
+crash54 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2015.Q4.CRASH.csv", header = TRUE)
+person54 <- read.csv(file="C:\\Users\\jagluck\\Documents\\Github\\maryland-crash-statistics\\raw\\csv\\2015.Q4.PERSON.csv", header = TRUE)
 
 
 #remove wrongly sized tables from enviornment
@@ -300,7 +300,7 @@ small_cluster <- inner_join(small_cluster, us_and_state_nobmore, by=c('LONGITUDE
 rownames(small_cluster) <- c()
 small_cluster <- distinct(small_cluster)
 
-#Small cluster
+#oc cluster
 oc_cluster <- exp %>%
   filter(pre ==61 | pre == 62 | pre == 63 | pre == 13) 
 
@@ -308,6 +308,18 @@ oc_cluster <- exp %>%
 oc_cluster <- inner_join(oc_cluster, us_and_state_nobmore, by=c('LONGITUDE', 'LATITUDE'))
 rownames(oc_cluster) <- c()
 oc_cluster <- distinct(oc_cluster)
+
+#branch cluster
+branch_cluster <- exp %>%
+  filter(pre ==65) 
+
+
+branch_cluster <- inner_join(branch_cluster, us_and_state_nobmore, by=c('LONGITUDE', 'LATITUDE'))
+rownames(branch_cluster) <- c()
+branch_cluster <- distinct(branch_cluster)
+
+# write to csv
+write.table(branch_cluster, "branch.csv", sep=",", row.names = F)
 
 
 

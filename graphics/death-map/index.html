@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pedestrian Injuries</title>
+
+   <!-- d3 import -->
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+  <!-- Load leaflet.css -->
+  <link href="css/leaflet.css" rel="stylesheet">
+
+  <!-- Load leaflet.js -->
+  <script src="js/leaflet.js"></script>
+  <script src="js/leaflet-src.js"></script>
+
+  <!-- Load our css -->
+  <link href="css/css.css" rel="stylesheet">
+
+  <!-- Load kml lib -->
+  <script src="js/kml.js"></script>
+
+  <!-- font -->
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700,700i|Poppins:300,400,500,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+  <!-- for style other than leaflet -->
+  <style type="text/css">
+    svg {
+      font-family:'Poppins', sans-serif;
+      font-size:9pt;
+      shape-rendering: crispEdges;
+    }
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+    }
+    path.domain {
+      stroke: none;
+    }
+    .y .tick line {
+      stroke: #ddd;
+    }
+    .my_polyline1 {
+      stroke: #FF7C00;
+      fill: none;
+      /*stroke-dasharray: 10,10; */
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    .my_polyline2 {
+      stroke: #C70101;
+      fill: none;
+      /*stroke-dasharray: 10,10; */
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    .my_polyline3 {
+      stroke: #FF7C00;
+      fill: none;
+      /*stroke-dasharray: 10,10; */
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    /*fence*/
+    .my_polyline4 {
+      stroke: black;
+      fill: none;
+      stroke-dasharray: 10,10;
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    .my_polyline5 {
+      stroke: #FFE804;
+      fill: none;
+      stroke-width: 7;
+      stroke-opacity:0.8;
+    }
+    .tooltip_stats {
+        padding: 6px 8px;
+        font-size:9pt;
+        font-family:'Poppins', sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.9);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
+    .leaflet-tooltip-left.tooltip_stats::before {
+      border-left-color: black;
+    }
+    .leaflet-tooltip-right.tooltip_stats::before {
+      border-right-color: black;
+    }
+    h1 {
+      font-family: 'Droid Serif', serif;
+      font-weight:600;
+      font-size:24pt;
+      fill:#2c2c2c;
+      color:black;
+      margin-bottom:5px;
+      margin-top:10px;
+    }
+    h2 {
+      font-family: 'Droid Serif', serif;
+      font-weight:600;
+      font-size:16pt;
+      fill:#2c2c2c;
+      color:black;
+      margin-bottom:5px;
+      margin-top:10px;
+    }
+    h3 {
+      font-family:'Poppins', sans-serif;
+      font-weight:300;
+      font-size:8pt;
+    }
+    h4 {
+      font-family:'Droid Serif', serif;
+      font-weight:400;
+      font-size:9pt;
+      color:#2c2c2c;
+      text-align:right;
+    }
+    h5 {
+      font-family:'Droid Serif', serif;
+      font-weight:400;
+      font-size:10pt;
+      color:#2c2c2c;
+      text-align:left;
+    }
+    .legend {
+    line-height: 18px;
+    color: #555;
+    }
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+    .info {
+        padding: 6px 8px;
+        font-size:9pt;
+        font-family:'Poppins', sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+    /*Styles the div that holds the highchart */
+    #container {
+      margin: 0 auto;
+      padding-left:20px;
+      padding-top:20px;
+      padding-right:30px;
+      padding-bottom:10px;
+      border-left:1px solid black;
+      border-bottom:14pt solid black;
+      border-top:1px solid black;
+      border-right:1px solid black;
+      box-shadow:5px 5px 10px gainsboro;
+      min-width: 310px;
+      max-width: 600px;
+      position:relative;
+    }
+    #source{
+      font-family: 'Droid Serif', serif;
+      font-weight:300;
+      font-size:9pt;
+      display: flex;
+      float:right;
+      margin-top:10px;
+    }
+  </style>
+</head>
+
+<body>
+    <div id="container" style="min-width: 300px; max-width: 700px; display: flex;flex-direction: column; margin: 0 auto">
+    <h1>Pedestrian deaths and serious injuries on US and MD state roads</h1>
+    <span style="height:8px; font-size:8pt; background-color:#fbd603; color:#fbd603;"></span><h3>BY JAKE GLUCK<a href="http://cnsmaryland.org" target="_blank" style="text-decoration:none;"> | CAPITAL NEWS SERVICE</a></h3>
+    <h5>
+      Every yellow point represents the loction where a pedestrian was seriouly injuried on US or MD state roads. Every red point represents a location where a pedestrian died on US or MD state roads. Click on a point to see the date of the incident. 
+  </h5>
+    <div id="mapid">
+    </div>
+    <script type="text/javascript">
+
+    var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamFnbHVjayIsImEiOiJjamFqeHNrdnQyZjFrMzNsZDBrcHM2dzd3In0.84EdvBJ5XlBpintC80Jlow';
+
+      var streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+
+
+    d3.csv("injured_or_killed.csv", function(data) {
+
+      var planes = [];
+
+      var yellowIcon = new L.Icon({
+        iconUrl: 'css/images/marker-icon-yellow.png',
+        iconSize: [9, 13.5],
+        iconAnchor: [4.5, 13.5],
+        popupAnchor: [0, -13.5]
+      });
+
+      var redIcon = new L.Icon({
+        iconUrl: 'css/images/marker-icon-red.png',
+        iconSize: [9, 13.5],
+        iconAnchor: [4.5, 13.5],
+        popupAnchor: [0, -13.5]
+      });
+
+        arrsize = data.length;        
+        var yes = [];
+        var no = [];
+
+        for (var i = 1; i < arrsize; i++) {
+          if(data[i].INJ_SEVER_CODE == 5){
+             marker = new L.marker([data[i].LATITUDE,data[i].LONGITUDE],{icon: redIcon}).bindPopup(data[i].ACC_DATE);
+            yes.push(marker);
+          }else{
+             marker = new L.marker([data[i].LATITUDE,data[i].LONGITUDE],{icon: yellowIcon}).bindPopup(data[i].ACC_DATE);
+          no.push(marker);
+          }
+        }
+
+        var yesPoints = L.layerGroup(yes);
+        var noPoints = L.layerGroup(no);
+
+        var baseMaps = {
+        };
+
+        var overlayMaps = {
+          "Deaths": yesPoints,
+          "Serious Injuries": noPoints,
+        };
+
+        var mymap = L.map('mapid', {
+          center: [39.1, -76.725],
+          zoom: 10,
+          layers: [streets, yesPoints, noPoints]
+        });
+
+        L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+
+              var legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (mymap) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+          labels = [];
+          labels.push(
+          '<i style="background:' + "#FF0000" + '"></i>' + " Deaths");
+        labels.push(
+          '<i style="background:' + "#CCC62C" + '"></i>' + " Serious Injuries");
+
+
+          div.innerHTML = labels.join('<br>');
+          return div;
+        };
+
+        legend.addTo(mymap);
+
+        //this changes marker size when zoom changes
+        mymap.on('zoomend', function() {
+
+          mymap.eachLayer(function (layer) {
+            if(layer instanceof L.Marker){
+              changeIconSize(layer);
+            }
+          });
+        });
+
+        //this makes sure objects are rights size when reloaded
+        mymap.on('overlayadd', function() {
+
+          mymap.eachLayer(function (layer) {
+            if(layer instanceof L.Marker){
+              changeIconSize(layer);
+            }
+          });
+        });
+
+           //resize one marker
+    function changeIconSize(myMarker) {
+
+      // this is the default size (of the default icon); it should be known beforehand;
+      var defaultIconSize = new L.Point(9, 13.5);
+      var defaultIconAnchor = new L.Point(4.5, 13.5);
+      var defaultPopupAnchor = new L.Point(0, -13.5);
+
+
+      // use leaflet's internal methods to scale the size (a bit overkill for this case...)
+      var transformation = new L.Transformation(1, 0, 1, 0);
+
+      var currentZoom = mymap.getZoom();
+      var newIconSize = transformation.transform(defaultIconSize, sizeFactor(currentZoom));
+      var newpopupAnchor = transformation.transform(defaultPopupAnchor, sizeFactor(currentZoom));
+
+      // adjust the icon anchor to the new size
+      var newIconAnchor = new L.Point(Math.round(newIconSize.x / 2), newIconSize.y);
+
+      iconUrl = myMarker._icon.src;
+      if (iconUrl === "http://localhost/death-map/css/images/marker-icon-red.png"){
+        // finally, declare a new icon and update the marker
+        iconUrl = myMarker._icon.src;
+           var newIcon = new L.Icon({
+              iconUrl: 'css/images/marker-icon-red.png',
+              iconSize: newIconSize,
+              iconAnchor: newIconAnchor,
+              popupAnchor: newpopupAnchor
+          });
+          myMarker.setIcon(newIcon);
+        }else{
+          // finally, declare a new icon and update the marker
+        iconUrl = myMarker._icon.src;
+           var newIcon = new L.Icon({
+              iconUrl: 'css/images/marker-icon-yellow.png',
+              iconSize: newIconSize,
+              iconAnchor: newIconAnchor,
+              popupAnchor: newpopupAnchor
+          });
+          myMarker.setIcon(newIcon);
+        }
+
+        //if this marker has open popup close it and reopen it to resize it
+      if(typeof openPopup === "undefined") {
+         myMarker.setIcon(newIcon);
+      }else if (myMarker._leaflet_id == openPopup._leaflet_id){
+          mymap.closePopup();
+          myMarker.setIcon(newIcon);
+          myMarker.openPopup();
+      }else{
+          myMarker.setIcon(newIcon);
+      }
+
+    }
+
+    //size for each level
+    function sizeFactor(zoom) {
+      if (zoom <= 4) return .5;
+      else if (zoom == 5) return .5;
+      else if (zoom == 6) return .5;
+      else if (zoom == 7) return .5;
+      else if (zoom == 8) return 1.0;
+      else if (zoom == 9) return 1.0;
+      else if (zoom == 10) return 1.0;
+      else if (zoom == 11) return 1.5;
+      else if (zoom == 12) return 1.5;
+      else if (zoom == 13) return 1.5;
+      else if (zoom == 14) return 2.0;
+      else if (zoom == 15) return 2.0;
+      else if (zoom == 16) return 2.0;
+      else 
+      return 2.5;
+    }
+     
+    });
+
+   </script>
+
+</div>
+
+<div id="source"><text><a href="http://cnsmaryland.org/home"><tspan>Source: Capital News Service</br></tspan></a></text></div>
+
+
+</body>
+</html>

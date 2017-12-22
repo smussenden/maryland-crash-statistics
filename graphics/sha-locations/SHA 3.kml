@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>SHA 3</name>
+    <description/>
+    <!-- <Style id="icon-1899-DB4436-nodesc-normal">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1899-DB4436-nodesc-highlight">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1899-DB4436-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-DB4436-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-DB4436-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="line-1267FF-5000-nodesc-normal">
+      <LineStyle>
+        <color>ffff6712</color>
+        <width>5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="line-1267FF-5000-nodesc-highlight">
+      <LineStyle>
+        <color>ffff6712</color>
+        <width>7.5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="line-1267FF-5000-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-1267FF-5000-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-1267FF-5000-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap> -->
+    <Folder>
+      <name>Untitled layer</name>
+    </Folder>
+    <Folder>
+      <name>Directions from 11741-11753 Veirs Mill Rd, Silver Spring, MD 20902, USA to 12227 Veirs Mill Rd, Silver Spring, MD 20906, USA</name>
+      <Placemark>
+        <name>Directions from 11741-11753 Veirs Mill Rd, Silver Spring, MD 20902, USA to 12227 Veirs Mill Rd, Silver Spring, MD 20906, USA</name>
+        <styleUrl>#line-1267FF-5000-nodesc</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -77.06926,39.04865,0
+            -77.06943,39.0488,0
+            -77.06969,39.04902,0
+            -77.06997,39.04921,0
+            -77.07017,39.04932,0
+            -77.07055,39.04951,0
+            -77.07091,39.04967,0
+            -77.07175,39.05003,0
+            -77.07256,39.05039,0
+            -77.07278,39.05048,0
+            -77.07293,39.05055,0
+            -77.07309,39.05062,0
+            -77.07322,39.05069,0
+            -77.07334,39.05075,0
+            -77.07339,39.05078,0
+            -77.0737,39.05094,0
+            -77.07402,39.05116,0
+            -77.07446,39.05147,0
+            -77.0747,39.05163,0
+            -77.07489,39.05177,0
+            -77.07521,39.05197,0
+            -77.07595,39.05244,0
+            -77.07622,39.05262,0
+            -77.07689,39.05306,0
+            -77.07706,39.05317,0
+            -77.07714,39.05322,0
+            -77.07726,39.05329,0
+            -77.07748,39.05342,0
+            -77.07778,39.05359,0
+            -77.07809,39.05377,0
+            -77.07895,39.05424,0
+            -77.0795,39.05455,0
+            -77.07998,39.05481,0
+            -77.08022,39.05493,0
+            -77.08039,39.05501,0
+            -77.08069,39.05517,0
+            -77.08098,39.05532,0
+            -77.08147,39.05559,0
+            -77.08203,39.05592,0
+            -77.08247,39.05617,0
+            -77.08257,39.05624,0
+            -77.08316,39.05658,0
+            -77.08352,39.05679,0
+            -77.0836,39.05683,0
+            -77.08427,39.05722,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+      <!-- <Placemark>
+        <name>11741-11753 Veirs Mill Rd, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0692616,39.0486451,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>12227 Veirs Mill Rd, Silver Spring, MD 20906, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0842699,39.0572213,0
+          </coordinates>
+        </Point>
+      </Placemark> -->
+    </Folder>
+    <Folder>
+      <name>Directions from 11310-11398 Georgia Ave, Silver Spring, MD 20902, USA to 11000 Georgia Ave, Silver Spring, MD 20902, USA</name>
+      <Placemark>
+        <name>Directions from 11310-11398 Georgia Ave, Silver Spring, MD 20902, USA to 11000 Georgia Ave, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#line-1267FF-5000-nodesc</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -77.0518,39.0414,0
+            -77.05167,39.04093,0
+            -77.05153,39.04053,0
+            -77.05141,39.0401,0
+            -77.05126,39.03961,0
+            -77.05124,39.03955,0
+            -77.05121,39.03946,0
+            -77.05111,39.03915,0
+            -77.05094,39.03864,0
+            -77.0508,39.03819,0
+            -77.05058,39.03759,0
+            -77.0504,39.03714,0
+            -77.05025,39.03682,0
+            -77.05007,39.03637,0
+            -77.04998,39.03631,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+      <!-- <Placemark>
+        <name>11310-11398 Georgia Ave, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0518046,39.0413978,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>11000 Georgia Ave, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0499809,39.0363121,0
+          </coordinates>
+        </Point>
+      </Placemark> -->
+    </Folder>
+    <Folder>
+      <name>Directions from 2698 University Blvd W, Silver Spring, MD 20902, USA to 11400 Georgia Ave, Silver Spring, MD 20902, USA</name>
+      <Placemark>
+        <name>Directions from 2698 University Blvd W, Silver Spring, MD 20902, USA to 11400 Georgia Ave, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#line-1267FF-5000-nodesc</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -77.05529,39.04002,0
+            -77.05471,39.04033,0
+            -77.05434,39.04052,0
+            -77.05413,39.04061,0
+            -77.05389,39.0407,0
+            -77.05364,39.04079,0
+            -77.05312,39.041,0
+            -77.05301,39.04104,0
+            -77.0528,39.0411,0
+            -77.05272,39.04113,0
+            -77.05226,39.0413,0
+            -77.05182,39.04145,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+     <!--  <Placemark>
+        <name>2698 University Blvd W, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0552949,39.0400209,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>11400 Georgia Ave, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0518187,39.0414466,0
+          </coordinates>
+        </Point>
+      </Placemark> -->
+    </Folder>
+    <Folder>
+      <name>Directions from 11200 Veirs Mill Rd, Silver Spring, MD 20902, USA to Veirs Mill Rd, Silver Spring, MD 20902, USA</name>
+      <Placemark>
+        <name>Directions from 11200 Veirs Mill Rd, Silver Spring, MD 20902, USA to Veirs Mill Rd, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#line-1267FF-5000-nodesc</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -77.05545,39.03994,0
+            -77.05519,39.0398,0
+            -77.05494,39.03966,0
+            -77.05433,39.03935,0
+            -77.05409,39.0392,0
+            -77.05383,39.03903,0
+            -77.05301,39.03842,0
+            -77.0527,39.03817,0
+            -77.05252,39.03802,0
+            -77.05221,39.03776,0
+            -77.05166,39.03731,0
+            -77.05118,39.03692,0
+            -77.05109,39.03685,0
+            -77.05086,39.03664,0
+            -77.05014,39.03608,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+     <!--  <Placemark>
+        <name>11200 Veirs Mill Rd, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0554484,39.0399366,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Veirs Mill Rd, Silver Spring, MD 20902, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0501444,39.0360783,0
+          </coordinates>
+        </Point>
+      </Placemark> -->
+    </Folder>
+    <Folder>
+      <name>Directions from 8598 Wisconsin Ave, Bethesda, MD 20814, USA to 6700 Wisconsin Ave, Bethesda, MD 20815, USA</name>
+      <Placemark>
+        <name>Directions from 8598 Wisconsin Ave, Bethesda, MD 20814, USA to 6700 Wisconsin Ave, Bethesda, MD 20815, USA</name>
+        <styleUrl>#line-1267FF-5000-nodesc</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -77.09651,38.99515,0
+            -77.09644,38.99459,0
+            -77.09642,38.99437,0
+            -77.09613,38.993,0
+            -77.0961,38.9928,0
+            -77.09608,38.99268,0
+            -77.09591,38.99195,0
+            -77.09588,38.99181,0
+            -77.09581,38.99147,0
+            -77.09576,38.99123,0
+            -77.0957,38.99097,0
+            -77.09561,38.99053,0
+            -77.09548,38.98996,0
+            -77.09527,38.989,0
+            -77.09516,38.98846,0
+            -77.09513,38.98827,0
+            -77.09501,38.98775,0
+            -77.09499,38.98762,0
+            -77.09494,38.98741,0
+            -77.09479,38.98673,0
+            -77.09459,38.98596,0
+            -77.09431,38.98483,0
+            -77.09428,38.98461,0
+            -77.09427,38.98458,0
+            -77.09424,38.98442,0
+            -77.09422,38.98435,0
+            -77.09419,38.98426,0
+            -77.09413,38.9841,0
+            -77.09399,38.98374,0
+            -77.09393,38.9836,0
+            -77.09378,38.98324,0
+            -77.09368,38.98303,0
+            -77.09349,38.98267,0
+            -77.09347,38.98262,0
+            -77.09346,38.98261,0
+            -77.09341,38.9825,0
+            -77.09328,38.98221,0
+            -77.09312,38.98186,0
+            -77.09307,38.98177,0
+            -77.09285,38.98132,0
+            -77.09273,38.98105,0
+            -77.0925,38.98062,0
+            -77.0922,38.98004,0
+            -77.09182,38.97925,0
+            -77.09159,38.97881,0
+            -77.09141,38.97847,0
+            -77.09136,38.97835,0
+            -77.09107,38.97775,0
+            -77.09095,38.97753,0
+            -77.09086,38.97734,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+      <!-- <Placemark>
+        <name>8598 Wisconsin Ave, Bethesda, MD 20814, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0965116,38.9951477,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>6700 Wisconsin Ave, Bethesda, MD 20815, USA</name>
+        <styleUrl>#icon-1899-DB4436-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.0908599,38.9773358,0
+          </coordinates>
+        </Point>
+      </Placemark> -->
+    </Folder>
+  </Document>
+</kml>
