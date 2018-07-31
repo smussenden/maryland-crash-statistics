@@ -14,56 +14,57 @@ library(fpc)
 library(tidyverse)
 
 
+
 # Import Maryland State Police vehicle crash data.  Raw data is here: https://github.com/Capital-News-Service/maryland-crash-statistics, with data dictionary. These were originally stored as Excel files with multipel sheets.  We've stripped out those sheets into separate CSVs and then read in.  We're just reading in crash tables and person tables for each quarter.  Note that we're removing certain fields on read in to ensure that 2016 and 2017 fields match 2015 fields. 
 #get data from each quarter and resize 2016 and 2017 tables to match 2015
 
-crash71p <- read.csv(file="raw/csv/2017.Q1.CRASH.csv", header = TRUE)
+crash71p <- read.csv(file="../raw/csv/2017.Q1.CRASH.csv", header = TRUE)
 crash71 <- crash71p[c(1:11,13:37)]
 
-person71p <- read.csv(file="raw/csv/2017.Q1.PERSON.csv", header = TRUE)
+person71p <- read.csv(file="../raw/csv/2017.Q1.PERSON.csv", header = TRUE)
 person71 <- person71p[c(1:20,22:28)]
 
-crash72p <- read.csv(file="raw/csv/2017.Q2.CRASH.csv", header = TRUE)
+crash72p <- read.csv(file="../raw/csv/2017.Q2.CRASH.csv", header = TRUE)
 crash72 <- crash72p[c(1:11,13:37)]
 
-person72p <- read.csv(file="raw/csv/2017.Q2.PERSON.csv", header = TRUE)
+person72p <- read.csv(file="../raw/csv/2017.Q2.PERSON.csv", header = TRUE)
 person72 <- person72p[c(1:20,22:28)]
 
-crash61p <- read.csv(file="raw/csv/2016.Q1.CRASH.csv", header = TRUE)
+crash61p <- read.csv(file="../raw/csv/2016.Q1.CRASH.csv", header = TRUE)
 crash61 <- crash61p[c(1:11,13:37)]
 
-person61p <- read.csv(file="raw/csv/2016.Q1.PERSON.csv", header = TRUE)
+person61p <- read.csv(file="../raw/csv/2016.Q1.PERSON.csv", header = TRUE)
 person61 <- person61p[c(1:20,22:28)]
 
-crash62p <- read.csv(file="raw/csv/2016.Q2.CRASH.csv", header = TRUE)
+crash62p <- read.csv(file="../raw/csv/2016.Q2.CRASH.csv", header = TRUE)
 crash62 <- crash62p[c(1:11,13:37)]
 
-person62p <- read.csv(file="raw/csv/2016.Q2.PERSON.csv", header = TRUE)
+person62p <- read.csv(file="../raw/csv/2016.Q2.PERSON.csv", header = TRUE)
 person62 <- person62p[c(1:20,22:28)]
 
-crash63p <- read.csv(file="raw/csv/2016.Q3.CRASH.csv", header = TRUE)
+crash63p <- read.csv(file="../raw/csv/2016.Q3.CRASH.csv", header = TRUE)
 crash63 <- crash63p[c(1:11,13:37)]
 
-person63p <- read.csv(file="raw/csv/2016.Q3.PERSON.csv", header = TRUE)
+person63p <- read.csv(file="../raw/csv/2016.Q3.PERSON.csv", header = TRUE)
 person63 <- person63p[c(1:20,22:28)]
 
-crash64p <- read.csv(file="raw/csv/2016.Q4.CRASH.csv", header = TRUE)
+crash64p <- read.csv(file="../raw/csv/2016.Q4.CRASH.csv", header = TRUE)
 crash64 <- crash64p[c(1:11,13:37)]
 
-person64p <- read.csv(file="raw/csv/2016.Q4.PERSON.csv", header = TRUE)
+person64p <- read.csv(file="../raw/csv/2016.Q4.PERSON.csv", header = TRUE)
 person64 <- person64p[c(1:20,22:28)]
 
-crash51 <- read.csv(file="raw/csv/2015.Q1.CRASH.csv", header = TRUE)
-person51 <- read.csv(file="raw/csv/2015.Q1.PERSON.csv", header = TRUE)
+crash51 <- read.csv(file="../raw/csv/2015.Q1.CRASH.csv", header = TRUE)
+person51 <- read.csv(file="../raw/csv/2015.Q1.PERSON.csv", header = TRUE)
 
-crash52 <- read.csv(file="raw/csv/2015.Q2.CRASH.csv", header = TRUE)
-person52 <- read.csv(file="raw/csv/2015.Q2.PERSON.csv", header = TRUE)
+crash52 <- read.csv(file="../raw/csv/2015.Q2.CRASH.csv", header = TRUE)
+person52 <- read.csv(file="../raw/csv/2015.Q2.PERSON.csv", header = TRUE)
 
-crash53 <- read.csv(file="raw/csv/2015.Q3.CRASH.csv", header = TRUE)
-person53 <- read.csv(file="raw/csv/2015.Q3.PERSON.csv", header = TRUE)
+crash53 <- read.csv(file="../raw/csv/2015.Q3.CRASH.csv", header = TRUE)
+person53 <- read.csv(file="../raw/csv/2015.Q3.PERSON.csv", header = TRUE)
 
-crash54 <- read.csv(file="raw/csv/2015.Q4.CRASH.csv", header = TRUE)
-person54 <- read.csv(file="raw/csv/2015.Q4.PERSON.csv", header = TRUE)
+crash54 <- read.csv(file="../raw/csv/2015.Q4.CRASH.csv", header = TRUE)
+person54 <- read.csv(file="../raw/csv/2015.Q4.PERSON.csv", header = TRUE)
 
 
 #remove wrongly sized tables from enviornment
@@ -161,15 +162,19 @@ combine <- combine %>%
   filter(row_number() != 9022) %>%
   filter(row_number() != 9021) 
 
-# Now filter out Baltimore city records, because Baltimore city roads are not maintained by SHA.  That leaves us with 7,864 records (people hit by cars)
-combine <- combine %>%
-  filter(COUNTY_NO != 24)
+# Write out combine to a CSV 
+write.csv(combine, file = "pedestrian_crashes_for_arcgis.csv")
 
-# Before filtering for SHA-only roads, look at range of ROUTE_TYPE_CODES.  Note that of the 7,864 pedestrian hit in crashes, 1915 have no route type given.  
 
-road_type_count <- combine %>%
-  group_by(ROUTE_TYPE_CODE) %>%
-  summarise(count=n()) 
+# NOT DOING THIS Now filter out Baltimore city records, because Baltimore city roads are not maintained by SHA.  That leaves us with 7,864 records (people hit by cars)
+# combine <- combine %>%
+#  filter(COUNTY_NO != 24)
+
+# NOT DOING THIS Before filtering for SHA-only roads, look at range of ROUTE_TYPE_CODES.  Note that of the 7,864 pedestrian hit in crashes, 1915 have no route type given.  
+
+# road_type_count <- combine %>%
+#  group_by(ROUTE_TYPE_CODE) %>%
+#  summarise(count=n()) 
 
 # These are the results.  
 #MD (Maryland route) 2010
@@ -185,24 +190,24 @@ road_type_count <- combine %>%
 #UU (No idea) 2
 
 # This is to do a visual inspection of all the null value for route type, figure out what we need to do about them. Note that there are 1915 of them.
-no_route_code <- combine %>%
-  filter(ROUTE_TYPE_CODE == "")
+# no_route_code <- combine %>%
+#  filter(ROUTE_TYPE_CODE == "")
 
 # This is to look at only those with a mainroad name given. We get 144 records.  Ultimately, we made a determination to exclude these -- and all null values -- from our analysis, because we could not confirm with any real certainty their location. 
-no_route_code_mainroad <- no_route_code %>%
-  subset(MAINROAD_NAME != "")
+#no_route_code_mainroad <- no_route_code %>%
+#  subset(MAINROAD_NAME != "")
 
 
 # Create subset for state and us highways.  Note that there were 88 records for IS (Insterstate Route), but a decision was made to leave those out becuase of questions about SHA vs other agency control of different parts of those roads.  
-us_roads <- subset(combine, ROUTE_TYPE_CODE=="US") # 392 people 
-state_roads <- subset(combine, ROUTE_TYPE_CODE=="MD") # 2010 people
+# us_roads <- subset(combine, ROUTE_TYPE_CODE=="US") # 392 people 
+# state_roads <- subset(combine, ROUTE_TYPE_CODE=="MD") # 2010 people
 
 #combine US and state roads into one table - 2402 observations (people hit by cars)
-us_and_state_no_bmore <- rbind(us_roads, state_roads)
+# us_and_state_no_bmore <- rbind(us_roads, state_roads)
 
 #removes row names
-rownames(combine) <- c()
-rownames(us_and_state_no_bmore) <- c()
+# rownames(combine) <- c()
+# rownames(us_and_state_no_bmore) <- c()
 
 #write data to csv file, this is for the us and state roads no baltimore
 write.csv(us_and_state_no_bmore, file = "us_and_state_nobmore.csv")
